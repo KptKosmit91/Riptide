@@ -205,6 +205,8 @@ namespace Riptide
                 {
                     Send(connectMessage, false);
                     connectionAttempts++;
+
+                    RiptideLogger.Log(LogType.Info, LogName, $"Connecting to server. Attempt {connectionAttempts} of {maxConnectionAttempts}");
                 }
                 else
                     LocalDisconnect(DisconnectReason.NeverConnected);
@@ -369,7 +371,7 @@ namespace Riptide
         {
             connectMessage.Release();
             connectMessage = null;
-            RiptideLogger.Log(LogType.Info, LogName, $"Connection to server failed: {Helper.GetReasonString(reason)}.");
+            RiptideLogger.Log(LogType.Info, LogName, $"Connection to server failed: {Helper.GetReasonString(reason)} after {connectionAttempts}/{maxConnectionAttempts} attempts.");
             ConnectionFailed?.Invoke(this, new ConnectionFailedEventArgs(reason, message));
         }
 
